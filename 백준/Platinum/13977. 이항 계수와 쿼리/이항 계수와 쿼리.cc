@@ -6,7 +6,7 @@ const ll MOD = 1000000007;
 
 ll fact[4000002];
 
-ll recPower(ll a, ll x)
+ll power(ll a, ll x)
 {
     ll result = 1;
     while (x)
@@ -23,7 +23,7 @@ ll recPower(ll a, ll x)
 ll comb(ll n, ll k)
 {
     ll a = fact[n], b = fact[n - k], c = fact[k];
-    return a * recPower((b * c % MOD), MOD - 2) % MOD;
+    return a * power((b * c % MOD), MOD - 2) % MOD;
 }
 
 int main()
@@ -42,7 +42,6 @@ int main()
     {
         ll N, K;
         cin >> N >> K;
-
         cout << comb(N, K) << "\n";
     }
 

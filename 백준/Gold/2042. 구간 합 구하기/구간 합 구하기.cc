@@ -6,17 +6,18 @@ using namespace std;
 
 vector<ll> tree;
 
-void changeValue(int index, ll val)
+void update(int index, ll val)
 {
-    long diff = val - tree[index];
-    while (index > 0)
+    tree[index] = val;
+
+    while (index > 1)
     {
-        tree[index] = tree[index] + diff;
-        index = index / 2;
+        index /= 2;
+        tree[index] = tree[index * 2] + tree[index * 2 + 1];
     }
 }
 
-void setTree(int i)
+void init(int i)
 {
     while (i != 1)
     {
@@ -25,9 +26,9 @@ void setTree(int i)
     }
 }
 
-ll getSum(int s, int e)
+ll query(int s, int e)
 {
-    long partSum = 0;
+    ll partSum = 0;
 
     while (s <= e)
     {
@@ -66,27 +67,26 @@ int main()
     }
 
     int treeSize = int(pow(2, treeHeight + 1));
-    int leafNodeStartIndex = treeSize / 2;
+    int leafStartIdx = treeSize / 2;
 
-    tree.resize(treeSize + 1);
+    tree.resize(treeSize + 1, 0);
 
-    for (int i = leafNodeStartIndex; i < leafNodeStartIndex + N; i++)
+    for (int i = leafStartIdx; i < leafStartIdx + N; i++)
         cin >> tree[i];
 
-    setTree(treeSize - 1);
+    init(treeSize - 1);
 
     for (int i = 0; i < M + K; i++)
     {
         ll a, s, e;
         cin >> a >> s >> e;
         if (a == 1)
-            changeValue(leafNodeStartIndex - 1 + s, e);
-
+            update(leafStartIdx - 1 + s, e);
         else if (a == 2)
         {
-            s = s + leafNodeStartIndex - 1;
-            e = e + leafNodeStartIndex - 1;
-            cout << getSum(s, e) << "\n";
+            s = s + leafStartIdx - 1;
+            e = e + leafStartIdx - 1;
+            cout << query(s, e) << "\n";
         }
     }
 

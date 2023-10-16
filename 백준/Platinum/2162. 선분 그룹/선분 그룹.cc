@@ -23,6 +23,7 @@ ll root(ll x)
 
 bool issame(ll x, ll y) { return root(x) == root(y); }
 
+// 합칠 때 노드 개수 정보를 넘겨줌
 void unite(ll x, ll y)
 {
     x = root(x);
@@ -80,25 +81,20 @@ int main()
 
     for (int i = 0; i < N - 1; i++)
         for (int j = i + 1; j < N; j++)
-        {
             if (isCrossed(line[i].first, line[i].second, line[j].first, line[j].second))
-            {
                 if (!issame(i, j))
                     unite(i, j);
-            }
-        }
 
     ll groupCnt = 0;
     ll groupSize = 0;
 
+	// root node 발견하면 groupCnt, groupSize 갱신
     for (int i = 0; i < N; i++)
-    {
         if (root(i) == i)
         {
             groupCnt++;
             groupSize = max(groupSize, lineGroupSize[i]);
         }
-    }
     
     cout << groupCnt << "\n"
          << groupSize;

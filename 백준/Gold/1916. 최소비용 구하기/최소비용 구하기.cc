@@ -27,10 +27,11 @@ void dijkstra(int start)
             continue;
 
         visited[cur] = true;
-        for (int i = 0; i < graph[cur].size(); i++)
+        
+        for (auto pair : graph[cur])
         {
-            int next = graph[cur][i].first;
-            int nextDistance = distance + graph[cur][i].second;
+            int next = pair.first;
+            int nextDistance = distance + pair.second;
             if (nextDistance < dist[next])
             {
                 dist[next] = nextDistance;
